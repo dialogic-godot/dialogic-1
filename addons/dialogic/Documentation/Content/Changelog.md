@@ -1,4 +1,7 @@
 # Changelog
+## v1.5.2
+* Freshly imported editor data is now sorted alphabetically by default, rather than 'randomly' [[paperman5](https://github.com/paperman5)]
+
 ## v1.5.1
 * Fixed a bug that prevented directories from being created on Android exports [[WolfgangSenff](https://github.com/WolfgangSenff)]
 * Fixed a bug [#1935](https://github.com/coppolaemilio/dialogic/issues/1935) where the creation buttons wouldn't function if a folder wasn't selected first [[zaknafean](https://github.com/zaknafean)]
