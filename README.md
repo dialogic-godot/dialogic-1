@@ -15,7 +15,7 @@ Create dialogs, characters and scenes to display conversations in your Godot gam
 
 # We are working on the new 2.0 version.
 - If you are interested in contributing [feel free to visit the main branch](https://github.com/coppolaemilio/dialogic).
-- Only bug fixes are going to be merged to this branch
+- Only bug fixes are going to be merged to this repository
 
 
 -----
