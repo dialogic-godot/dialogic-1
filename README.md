@@ -13,8 +13,8 @@ Create dialogs, characters and scenes to display conversations in your Godot gam
 ### Huge performance gains and many bug fixes mark the hopefully final major release of the Dialogic 1.x branch. But more bug and code fixes are still in the work!
 
 
-# We are working on the new 2.0 version.
-- If you are interested in contributing [feel free to visit the main branch](https://github.com/coppolaemilio/dialogic).
+# Using Godot 4? Check out Dialogic 2:
+- The repository is [here](https://github.com/dialogic-godot/dialogic).
 - Only bug fixes are going to be merged to this repository
 
 
