@@ -43,7 +43,7 @@ There has been some people having issues exporting their games. If you are havin
 ## Credits
 Made by [Emilio Coppola](https://github.com/coppolaemilio).
 
-Contributors: [Jowan-Spooner](https://github.com/Jowan-Spooner), [zaknafean](https://github.com/zaknafean), [Arnaud](https://github.com/arnaudvergnet), [ellogwen](https://github.com/ellogwen), [Tim Krief](https://github.com/timkrief), [and more!](https://github.com/coppolaemilio/dialogic/graphs/contributors). Special thanks: [Toen](https://twitter.com/ToenAndreMC), Òscar, [Francisco Presencia](https://francisco.io/). Placeholder images are from [Toen's](https://toen.world/) [YouTube DF series](https://www.youtube.com/watch?v=B1ggwiat7PM)
+Contributors: [Jowan-Spooner](https://github.com/Jowan-Spooner), [zaknafean](https://github.com/zaknafean), [Arnaud](https://github.com/arnaudvergnet), [Exelia](https://github.com/exelia-antonov), [ellogwen](https://github.com/ellogwen), [Tim Krief](https://github.com/timkrief), [and more!](https://github.com/coppolaemilio/dialogic/graphs/contributors). Special thanks: [Toen](https://twitter.com/ToenAndreMC), Òscar, [Francisco Presencia](https://francisco.io/). Placeholder images are from [Toen's](https://toen.world/) [YouTube DF series](https://www.youtube.com/watch?v=B1ggwiat7PM)
 
 ### Thank you to all my [Patreons](https://www.patreon.com/coppolaemilio) for making this possible!
 
