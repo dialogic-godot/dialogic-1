@@ -72,6 +72,8 @@ static func parse_text_lines(unparsed_dialog_script: Dictionary, preview:bool = 
 							'character': event['character'],
 							'portrait': event['portrait'],
 						}
+						if settings.get_value('translations', 'translations_by_id', false):
+							n_event["localization_id"] = event['localization_id']
 						#assigning voices to the new events 
 						if event.has('voice_data'):
 							if event['voice_data'].has(str(counter)):
@@ -107,10 +109,12 @@ static func parse_branches(current_dialog, dialog_script: Dictionary) -> Diction
 	# Return the same thing if it doesn't have events
 	if dialog_script.has('events') == false:
 		return dialog_script
-
+	
+	var settings = DialogicResources.get_settings_config()
 	var parser_queue = [] # This saves the last question opened, and it gets removed once it was consumed by a endbranch event
 	var event_idx: int = 0 # The current id for jumping later on
 	var question_idx: int = 0 # identifying the questions to assign options to it
+	
 	for event in dialog_script['events']:
 		if event['event_id'] == 'dialogic_011':
 			var opened_branch = parser_queue.back()
@@ -128,6 +132,8 @@ static func parse_branches(current_dialog, dialog_script: Dictionary) -> Diction
 					'definition': event['definition'],
 					'value': event['value'],
 					}
+				if settings.get_value('translations', 'translations_by_id', false):
+					option["localization_id"] = event['localization_id']
 			else:
 				option = {
 					'question_idx': opened_branch['question_idx'],
@@ -137,6 +143,8 @@ static func parse_branches(current_dialog, dialog_script: Dictionary) -> Diction
 					'definition': '',
 					'value': '',
 					}
+				if settings.get_value('translations', 'translations_by_id', false):
+					option["localization_id"] = event['localization_id']
 			dialog_script['events'][opened_branch['event_idx']]['options'].append(option)
 			event['question_idx'] = opened_branch['question_idx']
 		elif event['event_id'] == 'dialogic_010':
