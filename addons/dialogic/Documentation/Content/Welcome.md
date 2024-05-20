@@ -1,7 +1,7 @@
 ![WelcomeImage](./Images/dialogic-hero-1.3.png)
 Welcome to the help pages. Here you can find all the information available on how to use the plugin and its parts.  
 
-If you are looking for something specific, you can use the filter in the upper left. If you need extra help you can ask questions here: [GitHub Discussions](https://github.com/coppolaemilio/dialogic/discussions) or alternatively chat about the development of Dialogic on [Emilio's Discord server](https://discord.gg/v4zhZNh)!
+If you are looking for something specific, you can use the filter in the upper left. If you need extra help you can ask questions here: [GitHub Discussions](https://github.com/dialogic-godot/dialogic/discussions) or alternatively chat about the development of Dialogic on [Emilio's Discord server](https://discord.gg/v4zhZNh)!
 
 This project is made possible by the support of our [Patreons](https://www.patreon.com/coppolaemilio) and Github Sponsors.
 
