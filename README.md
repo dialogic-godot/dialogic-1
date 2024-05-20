@@ -2,9 +2,9 @@
 
 Create dialogs, characters and scenes to display conversations in your Godot games. 
 
-[Changelog](https://github.com/coppolaemilio/dialogic/blob/dialogic-1/addons/dialogic/Documentation/Content/Changelog.md) — 
+[Changelog](./addons/dialogic/Documentation/Content/Changelog.md) — 
 [Installation](#installation) — 
-[Documentation](https://github.com/coppolaemilio/dialogic/blob/dialogic-1/addons/dialogic/Documentation/Content/Welcome.md) — 
+[Documentation](./addons/dialogic/Documentation/Content/Welcome.md) — 
 [Credits](#credits)
 
 
@@ -21,21 +21,21 @@ Create dialogs, characters and scenes to display conversations in your Godot gam
 -----
 ## Getting started
 
-You can read a step by step guide on how to use [Dialogic here](https://github.com/coppolaemilio/dialogic/blob/dialogic-1/addons/dialogic/Documentation/Content/Tutorials/BeginnersGuideStepByStep.md)
+You can read a step by step guide on how to use [Dialogic here](./addons/dialogic/Documentation/Content/Tutorials/BeginnersGuideStepByStep.md)
 
 ## 📚 Documentation
-You can check the documentation from inside the plugin or [here](https://github.com/coppolaemilio/dialogic/blob/dialogic-1/addons/dialogic/Documentation/Content/Welcome.md)
+You can check the documentation from inside the plugin or [here](./addons/dialogic/Documentation/Content/Welcome.md)
 
 ## Installation
 
-To install a Dialogic, download it as a ZIP archive. All releases are listed here: [releases](https://github.com/coppolaemilio/dialogic/releases). Then extract the ZIP archive and move the `addons/` folder it contains into your project folder. Then, enable the plugin in project settings.
+To install a Dialogic, download it as a ZIP archive. All releases are listed here: [releases](https://github.com/dialogic-godot/dialogic/releases). Then extract the ZIP archive and move the `addons/` folder it contains into your project folder. Then, enable the plugin in project settings.
 
 If you want to know more about installing plugins you can read the [Godot docs page](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
 
 You can also install Dialogic using the **AssetLib** tab in the editor, but the version here will not be the latest one available since it takes some time for it to be approved.
 
 ## ⚠ IMPORTANT
-There has been some people having issues exporting their games. If you are having issues you can try to add `*.cfg` and `*.json` to your export settings [(image)](https://coppolaemilio.com/images/dialogic/exporting-2.png). If it is not that, try having at least 1 theme in your project. If you still have issues, please [open an issue](https://github.com/coppolaemilio/dialogic/issues).
+There has been some people having issues exporting their games. If you are having issues you can try to add `*.cfg` and `*.json` to your export settings. If it is not that, try having at least 1 theme in your project. If you still have issues, please [open an issue](https://github.com/dialogic-godot/dialogic-1/issues).
 
 
 ---
