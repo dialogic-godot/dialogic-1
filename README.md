@@ -30,7 +30,7 @@ You can check the documentation from inside the plugin or [here](./addons/dialog
 
 To install a Dialogic, download it as a ZIP archive. All releases are listed here: [releases](https://github.com/dialogic-godot/dialogic/releases). Then extract the ZIP archive and move the `addons/` folder it contains into your project folder. Then, enable the plugin in project settings.
 
-If you want to know more about installing plugins you can read the [Godot docs page](https://docs.godotengine.org/en/stable/tutorials/plugins/editor/installing_plugins.html).
+If you want to know more about installing plugins you can read the [Godot docs page](https://docs.godotengine.org/en/3.5/tutorials/plugins/editor/installing_plugins.html).
 
 You can also install Dialogic using the **AssetLib** tab in the editor, but the version here will not be the latest one available since it takes some time for it to be approved.
 
