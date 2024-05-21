@@ -4,13 +4,13 @@
 
 ## v1.5.1
 * Fixed a bug that prevented directories from being created on Android exports [[WolfgangSenff](https://github.com/WolfgangSenff)]
-* Fixed a bug [#1935](https://github.com/coppolaemilio/dialogic/issues/1935) where the creation buttons wouldn't function if a folder wasn't selected first [[zaknafean](https://github.com/zaknafean)]
-* Fixed a bug [#1644](https://github.com/coppolaemilio/dialogic/issues/1644) and [#1343](https://github.com/coppolaemilio/dialogic/issues/1343) where character leaves history logging could not be disabled.
+* Fixed a bug [#1935](https://github.com/dialogic-godot/dialogic/issues/1935) where the creation buttons wouldn't function if a folder wasn't selected first [[zaknafean](https://github.com/zaknafean)]
+* Fixed a bug [#1644](https://github.com/dialogic-godot/dialogic/issues/1644) and [#1343](https://github.com/dialogic-godot/dialogic/issues/1343) where character leaves history logging could not be disabled.
 * Themes can now properly duplicate
 * Choice button styles no longer 'randomly' revert
-* Commands will no longer show up in the history screen [#1709](https://github.com/coppolaemilio/dialogic/issues/1709)
-* Unused 'random text' will no longer show up in the history screen [#1710](https://github.com/coppolaemilio/dialogic/issues/1710)
-* Goto Anchors (labels) are now uniquely ID'd [#1119](https://github.com/coppolaemilio/dialogic/issues/1119). If you have labels that do not show up in your goto event, just hit the 'regenerate' button ![image](https://github.com/coppolaemilio/dialogic/assets/7741797/4c9c50c4-4a4d-4f56-b4f4-f90e1c4cd19c)
+* Commands will no longer show up in the history screen [#1709](https://github.com/dialogic-godot/dialogic/issues/1709)
+* Unused 'random text' will no longer show up in the history screen [#1710](https://github.com/dialogic-godot/dialogic/issues/1710)
+* Goto Anchors (labels) are now uniquely ID'd [#1119](https://github.com/dialogic-godot/dialogic/issues/1119). If you have labels that do not show up in your goto event, just hit the 'regenerate' button ![image](https://github.com/dialogic-godot/dialogic/assets/7741797/4c9c50c4-4a4d-4f56-b4f4-f90e1c4cd19c)
 * Fixed a bug that broke PCK encrypted games using Dialogic. [[TheMeddlingMechanic](https://github.com/TheMeddlingMechanic)]
 
 
@@ -35,7 +35,7 @@
 ## v1.4.4
 * Added no skip event [[zaknafean](https://github.com/zaknafean)]
 * Added auto-advance mode [[zaknafean](https://github.com/zaknafean)]
-* Translation Service Speed fixes by [[thebardsrc](https://github.com/thebardsrc)] in https://github.com/coppolaemilio/dialogic/pull/995
+* Translation Service Speed fixes by [[thebardsrc](https://github.com/thebardsrc)] in https://github.com/dialogic-godot/dialogic/pull/995
 * Fixed some Anima bugs [[zaknafean](https://github.com/zaknafean)]
 
 ## v1.4.3 
@@ -43,18 +43,18 @@
 The biggest changes in this version are fixes to a bug when exporting the games. Thank you everyone!
 
 ## What's Changed
-* Update Chinese Translation by @magian1127 in https://github.com/coppolaemilio/dialogic/pull/920
-* 1.4: Added simple slide_in character entrance animations by @champbob in https://github.com/coppolaemilio/dialogic/pull/945
-* 1.4: Added simple slide_out character entrance animations by @champbob in https://github.com/coppolaemilio/dialogic/pull/946
-* Fix multi-line code by @lemon37564 in https://github.com/coppolaemilio/dialogic/pull/970
-* 1.4.3 - Fix for export error due to settings theme failure by @zaknafean in https://github.com/coppolaemilio/dialogic/pull/978
-* 1.4.3 - Fix for #904 by @zaknafean in https://github.com/coppolaemilio/dialogic/pull/979
+* Update Chinese Translation by @magian1127 in https://github.com/dialogic-godot/dialogic/pull/920
+* 1.4: Added simple slide_in character entrance animations by @champbob in https://github.com/dialogic-godot/dialogic/pull/945
+* 1.4: Added simple slide_out character entrance animations by @champbob in https://github.com/dialogic-godot/dialogic/pull/946
+* Fix multi-line code by @lemon37564 in https://github.com/dialogic-godot/dialogic/pull/970
+* 1.4.3 - Fix for export error due to settings theme failure by @zaknafean in https://github.com/dialogic-godot/dialogic/pull/978
+* 1.4.3 - Fix for #904 by @zaknafean in https://github.com/dialogic-godot/dialogic/pull/979
 
 ## New Contributors
-* @champbob made their first contribution in https://github.com/coppolaemilio/dialogic/pull/945
-* @lemon37564 made their first contribution in https://github.com/coppolaemilio/dialogic/pull/970
+* @champbob made their first contribution in https://github.com/dialogic-godot/dialogic/pull/945
+* @lemon37564 made their first contribution in https://github.com/dialogic-godot/dialogic/pull/970
 
-**Full Changelog**: https://github.com/coppolaemilio/dialogic/compare/1.4.2...1.4.3
+**Full Changelog**: https://github.com/dialogic-godot/dialogic/compare/1.4.2...1.4.3
 
 ## v1.4.2 - Afterlife
 - Fixed an issue with MacOS and text events not adjusting their size properly
@@ -239,7 +239,7 @@ The biggest changes in this version are fixes to a bug when exporting the games.
 - Fixed some issues with the `[nw]` command [[Jowan-Spooner](https://github.com/Jowan-Spooner)]
 - Improved the Timeline Editor performance when loading timelines
 - Removed the `focus_mode` warning
-- Added a new page to the docs about the [Text Events](https://github.com/coppolaemilio/dialogic/blob/main/docs/events/TextEvent.md)
+- Added a new page to the docs about the [Text Events](https://github.com/dialogic-godot/dialogic/blob/main/docs/events/TextEvent.md)
 - Fixed a bug when trying to skip fade-in dialog animations [[idontkillcoyotes](https://github.com/idontkillcoyotes)]
 - Fixed an issue with typing sounds in exported projects
 - Fixed an issue when selecting folders for typing sounds in exporting projects; Thank you [AnidemDex](https://github.com/AnidemDex)!
@@ -366,7 +366,7 @@ The biggest changes in this version are fixes to a bug when exporting the games.
 - Added a button in timeline inspector plugin to open the selected timeline in the editor [[ellogwen](https://github.com/ellogwen)]
 - Special thanks to [Jowan-Spooner](https://github.com/Jowan-Spooner) for the QA and the facelift on the theme editor
 
-To view previous changes [click here](https://github.com/coppolaemilio/dialogic/blob/main/CHANGELOG.md). 
+To view previous changes [click here](https://github.com/dialogic-godot/dialogic/blob/main/CHANGELOG.md). 
 
 
 ## v1.0 - We made it! 🎉
