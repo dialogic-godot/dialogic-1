@@ -266,11 +266,39 @@ static func import(data: Dictionary, rebuld_definitions=false) -> void:
 	## Tell the future we want to use the imported data
 	Engine.get_main_loop().set_meta('current_save_lot', '/')
 	
-	 # load the data
+	# load the data
 	if rebuld_definitions:
 		var newDef =  DialogicResources.get_default_definitions()
-		newDef.merge(data['definitions'], false)
 		
+		var base_def_var = newDef.variables
+		var saved_user_def_var = data['definitions'].variables
+		
+		var distilled_saved_data: Array = []
+		
+		#filler out depreciated variables
+		for sd in saved_user_def_var:
+			var sd_id = sd.id
+			var bd_id
+			for bd in base_def_var:
+				bd_id = bd.id
+				if sd_id == bd_id:
+					distilled_saved_data.append (sd)
+		
+		#adds missing new variables not in saved game
+		for dd in base_def_var:
+			var dd_id = dd.id
+			var sd_id
+			for sd in distilled_saved_data:
+				var sd_keys = sd.id
+				if dd_id == sd_keys:
+					sd_id = sd_keys
+			if dd_id == sd_id:
+				pass
+			else:
+				distilled_saved_data.append (dd)
+		
+		#adds it back distilled data into main Saved Definitions
+		newDef.variables = distilled_saved_data
 		Engine.get_main_loop().set_meta('definitions', newDef)
 	else:
 		Engine.get_main_loop().set_meta('definitions', data['definitions'])
