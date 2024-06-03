@@ -37,6 +37,12 @@ onready var nodes = {
 	'history_screen_margin_y': $VBoxContainer/HBoxContainer3/VBoxContainer2/HistorySettings/GridContainer/BoxMargin/MarginY,
 	'history_container_margin_x': $VBoxContainer/HBoxContainer3/VBoxContainer2/HistorySettings/GridContainer/ContainerMargin/MarginX,
 	'history_container_margin_y': $VBoxContainer/HBoxContainer3/VBoxContainer2/HistorySettings/GridContainer/ContainerMargin/MarginY,
+	
+	# Translation Settings
+	'translation_locale': $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/TranslationIdSettings/GridContainer/LineEdit,
+	'translation_csv_path': $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/TranslationIdSettings/GridContainer/LineEdit,
+	'translation_collection_button': $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/TranslationIdSettings/GridContainer/CollectButton,
+	
 	# Animations
 	'default_join_animation':$VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer4/DefaultJoinAnimation/JoinAnimationPicker,
 	'default_join_animation_length':$VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer4/DefaultJoinAnimation/AnimationLengthPicker,
@@ -66,6 +72,12 @@ var HISTORY_KEYS := [
 	'history_screen_margin_y',
 	'history_container_margin_x',
 	'history_container_margin_y'
+]
+
+var TRANSLATION_KEYS := [
+	'translation_locale',
+	'translation_csv_path',
+	'translation_collection_button'
 ]
 
 var ANIMATION_KEYS := [
@@ -157,6 +169,7 @@ func _ready():
 	nodes['default_join_animation_length'].connect('value_changed', self, '_on_AnimationDefaultLength_value_changed', ['default_join_animation_length'])
 	nodes['default_leave_animation_length'].connect('value_changed', self, '_on_AnimationDefaultLength_value_changed', ['default_leave_animation_length'])
 
+
 func update_data():
 	# Reloading the settings
 	var settings = DialogicResources.get_settings_config()
@@ -165,6 +178,7 @@ func update_data():
 	load_values(settings, "input", INPUT_KEYS)
 	load_values(settings, "history", HISTORY_KEYS)
 	load_values(settings, "animations", ANIMATION_KEYS)
+	load_values(settings, "translations", TRANSLATION_KEYS)
 	select_bus(settings.get_value("dialog", 'text_event_audio_default_bus', "Master"))
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/dialogic/Editor/SettingsEditor/SettingsEditor.gd" type="Script" id=1]
 [ext_resource path="res://addons/dialogic/Editor/Common/SectionTitle.tscn" type="PackedScene" id=2]
@@ -7,8 +7,9 @@
 [ext_resource path="res://addons/dialogic/Editor/SettingsEditor/Scenes/HistorySettings.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/dialogic/Editor/Events/Parts/ResourcePickers/ResourcePickerMenu.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/dialogic/Editor/Events/styles/InputFieldsStyle.tres" type="Theme" id=7]
+[ext_resource path="res://addons/dialogic/Editor/SettingsEditor/Scenes/TranslationIDSettings.tscn" type="PackedScene" id=8]
 
-[sub_resource type="Image" id=1]
+[sub_resource type="Image" id=3]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -20,7 +21,7 @@ data = {
 [sub_resource type="ImageTexture" id=2]
 flags = 4
 flags = 4
-image = SubResource( 1 )
+image = SubResource( 3 )
 size = Vector2( 16, 16 )
 
 [node name="SettingsEditor" type="ScrollContainer"]
@@ -31,17 +32,17 @@ script = ExtResource( 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 1012.0
-margin_bottom = 716.0
+margin_bottom = 606.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1012.0
-margin_bottom = 716.0
+margin_bottom = 606.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3"]
 margin_right = 398.0
-margin_bottom = 716.0
+margin_bottom = 606.0
 custom_constants/separation = 16
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
@@ -99,7 +100,7 @@ rounded = true
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
 margin_top = 94.0
 margin_right = 398.0
-margin_bottom = 388.0
+margin_bottom = 446.0
 
 [node name="SectionTitle" parent="VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
 margin_right = 398.0
@@ -219,10 +220,17 @@ text = "Inputs for text events will be treated as keys for tr()"
 settings_section = "dialog"
 settings_key = "translations"
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_top = 404.0
+[node name="TranslationIdSettings" parent="VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 298.0
 margin_right = 398.0
-margin_bottom = 454.0
+margin_bottom = 352.0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
+margin_top = 462.0
+margin_right = 398.0
+margin_bottom = 512.0
 
 [node name="SectionTitle" parent="VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer3" instance=ExtResource( 2 )]
 margin_right = 398.0
@@ -239,9 +247,9 @@ settings_section = "saving"
 settings_key = "autosave"
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
-margin_top = 470.0
+margin_top = 528.0
 margin_right = 398.0
-margin_bottom = 548.0
+margin_bottom = 606.0
 
 [node name="SectionTitle2" parent="VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer4" instance=ExtResource( 2 )]
 margin_right = 398.0
@@ -306,21 +314,21 @@ value = 0.5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3"]
 margin_left = 402.0
-margin_right = 738.0
-margin_bottom = 716.0
+margin_right = 708.0
+margin_bottom = 606.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2"]
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 310.0
 
 [node name="SectionTitle2" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 2 )]
-margin_right = 336.0
+margin_right = 306.0
 text = "Input"
 text_key = "Input"
 
 [node name="SettingsCheckbox2" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 26.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 50.0
 text = "Autofocus choice buttons"
 settings_section = "input"
@@ -328,7 +336,7 @@ settings_key = "autofocus_choices"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 54.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 78.0
 
 [node name="TLabel14" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
@@ -358,7 +366,7 @@ text_key = " seconds"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 82.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 102.0
 
 [node name="TLabel16" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer2" instance=ExtResource( 3 )]
@@ -379,7 +387,7 @@ text = "dialogic_default_action"
 
 [node name="SettingsCheckbox" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 106.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 130.0
 text = "Tap area covers full screen"
 default = true
@@ -388,7 +396,7 @@ settings_key = "clicking_dialog_action"
 
 [node name="SettingsCheckbox3" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 134.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 158.0
 text = "Enable default choice hotkeys"
 settings_section = "input"
@@ -396,7 +404,7 @@ settings_key = "enable_default_shortcut"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 162.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 182.0
 alignment = 2
 
@@ -411,7 +419,7 @@ text_key = "Choice 1 hotkey"
 
 [node name="Choice1Hotkey" type="OptionButton" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer4"]
 margin_left = 106.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 20.0
 hint_tooltip = "The default value is No Hotkey"
 size_flags_horizontal = 3
@@ -419,7 +427,7 @@ text = "[None]"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 186.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 206.0
 alignment = 2
 
@@ -434,7 +442,7 @@ text_key = "Choice 2 hotkey"
 
 [node name="Choice2Hotkey" type="OptionButton" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer5"]
 margin_left = 106.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 20.0
 hint_tooltip = "The default value is No Hotkey"
 size_flags_horizontal = 3
@@ -442,7 +450,7 @@ text = "dialogic_setction"
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 210.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 230.0
 alignment = 2
 
@@ -457,7 +465,7 @@ text_key = "Choice 3 hotkey"
 
 [node name="Choice3Hotkey" type="OptionButton" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer6"]
 margin_left = 106.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 20.0
 hint_tooltip = "The default value is No Hotkey"
 size_flags_horizontal = 3
@@ -465,7 +473,7 @@ text = "[None]"
 
 [node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer"]
 margin_top = 234.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 254.0
 alignment = 2
 
@@ -480,7 +488,7 @@ text_key = "Choice 4 hotkey"
 
 [node name="Choice4Hotkey" type="OptionButton" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer/HBoxContainer7"]
 margin_left = 106.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 20.0
 hint_tooltip = "The default value is No Hotkey"
 size_flags_horizontal = 3
@@ -488,7 +496,7 @@ text = "[None]"
 
 [node name="SettingsCheckbox4" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 258.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 282.0
 text = "Propagate input to rest of the Tree"
 default = true
@@ -497,7 +505,7 @@ settings_key = "propagate_input"
 
 [node name="SettingsCheckbox5" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 286.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 310.0
 text = "Stop Mouse Clicks"
 default = true
@@ -506,27 +514,27 @@ settings_key = "stop_mouse"
 
 [node name="HistorySettings" parent="VBoxContainer/HBoxContainer3/VBoxContainer2" instance=ExtResource( 5 )]
 margin_top = 314.0
-margin_right = 336.0
-margin_bottom = 658.0
+margin_right = 306.0
+margin_bottom = 364.0
 
 [node name="CustomEvents" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2"]
-margin_top = 662.0
-margin_right = 336.0
-margin_bottom = 712.0
+margin_top = 368.0
+margin_right = 306.0
+margin_bottom = 418.0
 
 [node name="SectionTitle" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents" instance=ExtResource( 2 )]
-margin_right = 336.0
+margin_right = 306.0
 text = "Custom events"
 text_key = "Custom events"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents"]
 margin_top = 26.0
-margin_right = 336.0
+margin_right = 306.0
 margin_bottom = 50.0
 
 [node name="Message" type="Label" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/HBoxContainer"]
 margin_top = 5.0
-margin_right = 260.0
+margin_right = 230.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -535,21 +543,21 @@ __meta__ = {
 }
 
 [node name="NewCustomEvent" type="Button" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/HBoxContainer"]
-margin_left = 264.0
-margin_right = 304.0
+margin_left = 234.0
+margin_right = 274.0
 margin_bottom = 24.0
 text = "New"
 
 [node name="CustomEventsDocs" type="ToolButton" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/HBoxContainer"]
-margin_left = 308.0
-margin_right = 336.0
+margin_left = 278.0
+margin_right = 306.0
 margin_bottom = 24.0
 icon = SubResource( 2 )
 
 [node name="CreateCustomEventSection" type="GridContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents"]
 visible = false
 margin_top = 54.0
-margin_right = 304.0
+margin_right = 306.0
 margin_bottom = 158.0
 columns = 2
 
@@ -564,7 +572,7 @@ text_key = "Event Name:"
 
 [node name="CeName" type="LineEdit" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection"]
 margin_left = 109.0
-margin_right = 304.0
+margin_right = 306.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
@@ -580,7 +588,7 @@ text_key = "Directory Name:"
 [node name="CeDirectory" type="LineEdit" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection"]
 margin_left = 109.0
 margin_top = 28.0
-margin_right = 304.0
+margin_right = 306.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 
@@ -596,7 +604,7 @@ text_key = "Event id:"
 [node name="CeEventId" type="LineEdit" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection"]
 margin_left = 109.0
 margin_top = 56.0
-margin_right = 304.0
+margin_right = 306.0
 margin_bottom = 80.0
 size_flags_horizontal = 3
 placeholder_text = "myname_001"
@@ -609,23 +617,23 @@ margin_bottom = 104.0
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection"]
 margin_left = 109.0
 margin_top = 84.0
-margin_right = 304.0
+margin_right = 306.0
 margin_bottom = 104.0
 alignment = 2
 
 [node name="CreateCustomEvent" type="Button" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection/HBoxContainer"]
-margin_left = 84.0
-margin_right = 137.0
+margin_left = 86.0
+margin_right = 139.0
 margin_bottom = 20.0
 text = "Create"
 
 [node name="CancelCustomEvent" type="Button" parent="VBoxContainer/HBoxContainer3/VBoxContainer2/CustomEvents/CreateCustomEventSection/HBoxContainer"]
-margin_left = 141.0
-margin_right = 195.0
+margin_left = 143.0
+margin_right = 197.0
 margin_bottom = 20.0
 text = "Cancel"
 
 [node name="CustomEvents" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer2"]
-margin_top = 716.0
-margin_right = 336.0
-margin_bottom = 716.0
+margin_top = 422.0
+margin_right = 306.0
+margin_bottom = 422.0

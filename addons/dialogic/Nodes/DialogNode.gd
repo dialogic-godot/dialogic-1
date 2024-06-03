@@ -104,7 +104,7 @@ func _ready():
 	
 	#update_custom_events()
 	$CustomEvents.update()
-		
+	
 	# Checking if the dialog should read the code from a external file
 	if not timeline.empty():
 		set_current_dialog(timeline)
@@ -644,6 +644,7 @@ func _load_event():
 	if dialog_script.has('events'):
 		if not _is_dialog_finished():
 			# CHECK IF NECESSARY!
+			print(dialog_script['events'][dialog_index])
 			var func_state = event_handler(dialog_script['events'][dialog_index])
 			#if (func_state is GDScriptFunctionState):
 			#	print(func_state)
@@ -683,7 +684,12 @@ func event_handler(event: Dictionary):
 
 			#voice 
 			handle_voice(event)
-			var finalText = update_text(event['text'])
+			var finalText = ""
+			
+			if settings.get_value('translations', 'translations_by_id', false):
+				finalText = update_text(event['localization_id'])
+			else:
+				finalText = update_text(event['text'])
 			
 			# This handles specific text elements
 			if record_history:
@@ -807,7 +813,13 @@ func event_handler(event: Dictionary):
 				update_name(character_data)
 			#voice 
 			handle_voice(event)
-			var finalText = update_text(event['question'])
+			
+			var finalText = ""
+			
+			if settings.get_value('translations', 'translations_by_id', false):
+				finalText = update_text(event['localization_id'])
+			else:
+				finalText = update_text(event['question'])
 			
 			# This handles specific text elements
 			if record_history:
@@ -1082,7 +1094,7 @@ func update_name(character) -> void:
 # shows the given text in the Text Bubble
 # handles the simple translation feature
 func update_text(text: String) -> String:
-	if settings.get_value('dialog', 'translations', false):
+	if settings.get_value('dialog', 'translations', false) or settings.get_value('translations', 'translations_by_id', false):
 		text = tr(text)
 	var final_text = DialogicParser.parse_definitions(self, DialogicParser.parse_alignment(self, text))
 	final_text = final_text.replace('[br]', '\n')
@@ -1128,7 +1140,12 @@ func clear_options():
 
 # adds a button for the given choice
 func add_choice_button(option: Dictionary) -> Button:
-	var button = get_classic_choice_button(option['label'])
+	var final_text = option['label']
+	
+	if settings.get_value('dialog', 'translations', false) or settings.get_value('translations', 'translations_by_id', false):
+		final_text = tr(option['localization_id'])
+		
+	var button = get_classic_choice_button(final_text)
 	button_container.set('custom_constants/separation', current_theme.get_value('buttons', 'gap', 20))
 	button_container.add_child(button)
 	

@@ -7,6 +7,3 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Testing button "
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
