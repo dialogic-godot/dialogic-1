@@ -1,6 +1,6 @@
 # Changelog
 ## v1.5.3
-* Added id based translation system and a button to gather all dialog into a single excel file [[iodine]([https://github.com/iodine](https://github.com/Iodinex64))]
+* Added id based translation system and a button to gather all dialog into a single excel file [[iodine](https://github.com/Iodinex64)]
 * Added code to import/export functions to handle post production changes to variables and glossary data
   
 ## v1.5.2
