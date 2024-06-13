@@ -8,9 +8,17 @@ Create dialogs, characters and scenes to display conversations in your Godot gam
 [Credits](#credits)
 
 
-# Version 1.5.0 - Maintaining Course ![Godot v3.4](https://img.shields.io/badge/Godot-v3.4-%23478cbf) ![Godot v3.5](https://img.shields.io/badge/Godot-v3.5-%23478cbf)
+# Version 1.5.1 - Still alive! ![Godot v3.4](https://img.shields.io/badge/Godot-v3.4-%23478cbf) ![Godot v3.5](https://img.shields.io/badge/Godot-v3.5-%23478cbf)
+Dialogic laboratories is proud to present this small treat of fixes and improvements which is a must have for all dialogic 1 users.
+It's a triumph. Note: "Huge success".
 
-### Huge performance gains and many bug fixes mark the hopefully final major release of the Dialogic 1.x branch. But more bug and code fixes are still in the work!
+And certainly still alive! Now even more with:
+
+    themes that properly duplicate (#1938)
+    a fix for a bug that broke PCK encrypted games using Dialogic (#1974)
+    another fix for a bug where the creation buttons wouldn't function if a folder wasn't selected first (#1935)
+
+Huge thanks go out to @zaknafean who is the one responsible for this branch still evolving and who would certainly be happy if you (yes YOU dear reader) would want to contribute to dialogic 1! Come by on emilios discord server if you're interested.
 
 
 # Using Godot 4? Check out Dialogic 2:
