@@ -92,7 +92,12 @@ static func start(timeline: String = '', default_timeline: String ='', dialog_sc
 	
 	# check if it's a file name
 	if timeline.ends_with('.json'):
-		for t in Engine.get_main_loop().get_meta('dialogic_tree')['Timelines'].values():
+		var loop_over
+		if Engine.editor_hint:
+			loop_over = DialogicUtil.get_timeline_list()
+		else:
+			loop_over = Engine.get_main_loop().get_meta('dialogic_tree')['Timelines'].values()
+		for t in loop_over:
 			if t['file'] == timeline:
 				dialog_node.timeline = t['file']
 				dialog_node.timeline_name = timeline

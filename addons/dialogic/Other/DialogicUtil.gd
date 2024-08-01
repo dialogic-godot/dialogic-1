@@ -15,6 +15,8 @@ static func list_to_dict(list):
 ## *****************************************************************************
 
 static func get_character_list() -> Array:
+	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
+		return Engine.get_main_loop().get_meta('dialogic_tree')['Characters'].values()
 	var characters: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('CHAR_DIR')):
 		if '.json' in file:
@@ -57,6 +59,8 @@ static func get_character(character_id):
 
 
 static func get_timeline_list() -> Array:
+	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
+		return Engine.get_main_loop().get_meta('dialogic_tree')['Timelines'].values()
 	var timelines: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('TIMELINE_DIR')):
 		if '.json' in file: # TODO check for real .json because if .json is in the middle of the sentence it still thinks it is a timeline
@@ -87,6 +91,8 @@ static func get_sorted_timeline_list():
 ## *****************************************************************************
 
 static func get_theme_list() -> Array:
+	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
+		return Engine.get_main_loop().get_meta('dialogic_tree')['Themes'].values()
 	var themes: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('THEME_DIR')):
 		if '.cfg' in file:
