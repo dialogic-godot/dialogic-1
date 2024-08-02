@@ -19,7 +19,8 @@ var custom_instance : Node2D = null
 
 var current_state := {'character':'', 'portrait':'', 'position':'', 'mirrored':false}
 
-signal animation_finished
+signal animation_finished()
+signal portrait_image_updated()
 
 func init(expression: String = '') -> void:
 	set_portrait(expression)
@@ -35,6 +36,7 @@ func _ready():
 
 func set_portrait(expression: String) -> void:
 	if expression == "(Don't change)":
+		call_deferred("emit_signal", "portrait_image_updated")
 		return
 
 	if expression == '':
@@ -60,13 +62,20 @@ func set_portrait(expression: String) -> void:
 				add_child(custom_instance)
 				
 				$TextureRect.texture = ImageTexture.new()
+				emit_signal("portrait_image_updated")
 				return
 			else:
 				# Creating an image portrait
 				if ResourceLoader.exists(p['path']):
-					$TextureRect.texture = load(p['path'])
+					if DialogicUtil.can_use_threading():
+						var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
+						loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT | CONNECT_DEFERRED)
+						loader.load_resource(p['path'])
+					else:
+						$TextureRect.texture = load(p['path'])
 				else:
 					$TextureRect.texture = ImageTexture.new()
+					emit_signal("portrait_image_updated")
 				return
 		
 		# Saving what the default is to fallback to it.
@@ -84,15 +93,26 @@ func set_portrait(expression: String) -> void:
 		add_child(custom_instance)
 		
 		$TextureRect.texture = ImageTexture.new()
+		emit_signal("portrait_image_updated")
 		return
 	else:
 		# Creating an image portrait
 		if ResourceLoader.exists(default):
-			$TextureRect.texture = load(default)
+			if DialogicUtil.can_use_threading():
+				var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
+				loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT | CONNECT_DEFERRED)
+				loader.load_resource(default)
+			else:
+				$TextureRect.texture = load(default)
 		else:
 			$TextureRect.texture = ImageTexture.new()
+			emit_signal("portrait_image_updated")
 		return
 
+
+func _set_portrait_texture(tex):
+	$TextureRect.texture = tex
+	emit_signal("portrait_image_updated")
 
 
 func set_mirror(value):
