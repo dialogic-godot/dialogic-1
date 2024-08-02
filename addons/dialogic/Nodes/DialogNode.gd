@@ -65,6 +65,9 @@ var audio_data = {}
 var button_container = null
 var current_portrait = null
 
+# Async loading flags
+var _theme_loaded := false
+
 ## -----------------------------------------------------------------------------
 ## 						SCENES
 ## -----------------------------------------------------------------------------
@@ -101,6 +104,9 @@ func _ready():
 	Engine.get_main_loop().set_meta('latest_dialogic_node', self)
 	# Loading the config files
 	load_config_files()
+	if DialogicUtil.can_use_threading() and !_theme_loaded:
+		_hide_dialog()
+		yield($TextBubble, "theme_loaded")
 	
 	#update_custom_events()
 	$CustomEvents.update()
@@ -326,6 +332,7 @@ func deferred_resize(current_size, result, anchor):
 
 # loads the given theme file
 func load_theme(filename):
+	_theme_loaded = false
 	var current_theme_anchor = -1
 	if current_theme:
 		current_theme_anchor = current_theme.get_value('box', 'anchor', 9)
@@ -337,6 +344,8 @@ func load_theme(filename):
 	# Box size
 	call_deferred('deferred_resize', $TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	
+	if DialogicUtil.can_use_threading() and !$TextBubble.is_connected("theme_loaded", self, "set"):
+		$TextBubble.connect("theme_loaded", self, "set", ["_theme_loaded", true], CONNECT_ONESHOT)
 	$TextBubble.load_theme(theme)
 	HistoryTimeline.change_theme(theme)
 	$DefinitionInfo.load_theme(theme)

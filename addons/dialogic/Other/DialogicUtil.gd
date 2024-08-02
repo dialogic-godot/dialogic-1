@@ -606,6 +606,21 @@ static func compare_dicts(dict_1: Dictionary, dict_2: Dictionary) -> bool:
 	return false
 
 
+static func path_fixer(path):
+	match path:
+		'res://addons/dialogic/Fonts/DefaultFont.tres':
+			return "res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres"
+		'res://addons/dialogic/Fonts/GlossaryFont.tres':
+			return 'res://addons/dialogic/Example Assets/Fonts/GlossaryFont.tres'
+		'res://addons/dialogic/Images/background/background-1.png':
+			return 'res://addons/dialogic/Example Assets/backgrounds/background-1.png'
+		'res://addons/dialogic/Images/background/background-2.png':
+			return 'res://addons/dialogic/Example Assets/backgrounds/background-2.png'
+		'res://addons/dialogic/Images/next-indicator.png':
+			return 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'
+
+	return path
+
 static func path_fixer_load(path):
 	# This function was added because some of the default assets shipped with
 	# Dialogic 1.0 were moved for version 1.1. If by any chance they still
@@ -614,19 +629,7 @@ static func path_fixer_load(path):
 	# DialogicUtil.path_fixer_load(x) with just load(x) on version 2.0
 	# since we will break compatibility.
 	
-	match path:
-		'res://addons/dialogic/Fonts/DefaultFont.tres':
-			return load("res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres")
-		'res://addons/dialogic/Fonts/GlossaryFont.tres':
-			return load('res://addons/dialogic/Example Assets/Fonts/GlossaryFont.tres')
-		'res://addons/dialogic/Images/background/background-1.png':
-			return load('res://addons/dialogic/Example Assets/backgrounds/background-1.png')
-		'res://addons/dialogic/Images/background/background-2.png':
-			return load('res://addons/dialogic/Example Assets/backgrounds/background-2.png')
-		'res://addons/dialogic/Images/next-indicator.png':
-			return load('res://addons/dialogic/Example Assets/next-indicator/next-indicator.png')
-
-	return load(path)
+	return load(path_fixer(path))
 
 # This function contains necessary updates.
 # This should be deleted in 2.0
@@ -898,6 +901,9 @@ static func get_flat_folders_list(include_folders: bool = true) -> Dictionary:
 	
 	return flatten
 
+
+static func can_use_threading() -> bool:
+	return !Engine.editor_hint and !OS.has_feature('HTML5')
 
 ## *****************************************************************************
 ##							DIALOGIC_SORTER CLASS
