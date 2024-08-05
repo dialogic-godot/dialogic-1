@@ -19,6 +19,8 @@ var custom_instance : Node2D = null
 
 var current_state := {'character':'', 'portrait':'', 'position':'', 'mirrored':false}
 
+var _loading_portrait = null	# Threading
+
 signal animation_finished()
 signal portrait_image_updated()
 
@@ -36,6 +38,7 @@ func _ready():
 
 func set_portrait(expression: String) -> void:
 	if expression == "(Don't change)":
+		_loading_portrait = null
 		call_deferred("emit_signal", "portrait_image_updated")
 		return
 
@@ -43,6 +46,7 @@ func set_portrait(expression: String) -> void:
 		expression = 'Default'
 	
 	current_state['portrait'] = expression
+	_loading_portrait = expression
 	
 	# Clearing old custom scenes
 	for n in get_children():
@@ -62,7 +66,10 @@ func set_portrait(expression: String) -> void:
 				add_child(custom_instance)
 				
 				$TextureRect.texture = ImageTexture.new()
-				emit_signal("portrait_image_updated")
+				# Threading: use deferred call, otherwise signal will be emitted before
+				# signal is yielded from calling function
+				_loading_portrait = null
+				call_deferred("emit_signal", "portrait_image_updated")
 				return
 			else:
 				# Creating an image portrait
@@ -75,7 +82,8 @@ func set_portrait(expression: String) -> void:
 						$TextureRect.texture = load(p['path'])
 				else:
 					$TextureRect.texture = ImageTexture.new()
-					emit_signal("portrait_image_updated")
+					_loading_portrait = null
+					call_deferred("emit_signal", "portrait_image_updated")
 				return
 		
 		# Saving what the default is to fallback to it.
@@ -93,7 +101,8 @@ func set_portrait(expression: String) -> void:
 		add_child(custom_instance)
 		
 		$TextureRect.texture = ImageTexture.new()
-		emit_signal("portrait_image_updated")
+		_loading_portrait = null
+		call_deferred("emit_signal", "portrait_image_updated")
 		return
 	else:
 		# Creating an image portrait
@@ -106,13 +115,19 @@ func set_portrait(expression: String) -> void:
 				$TextureRect.texture = load(default)
 		else:
 			$TextureRect.texture = ImageTexture.new()
-			emit_signal("portrait_image_updated")
+			_loading_portrait = null
+			call_deferred("emit_signal", "portrait_image_updated")
 		return
 
 
 func _set_portrait_texture(tex):
 	$TextureRect.texture = tex
+	_loading_portrait = null
 	emit_signal("portrait_image_updated")
+
+
+func get_loading_portrait() -> String:
+	return _loading_portrait
 
 
 func set_mirror(value):
