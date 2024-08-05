@@ -24,8 +24,8 @@ static func prepare():
 	Engine.get_main_loop().set_meta('dialogic_tree', flat_structure)
 	
 	var settings = DialogicResources.get_settings_config()
-	if settings.get_value('dialog', 'do_preload_node', true):
-		var scene = load(settings.get_value('dialog', 'preload_node', "res://addons/dialogic/Nodes/DialogNode.tscn"))
+	if settings.get_value('dialog', 'do_cache_dialognode', true):
+		var scene = load(settings.get_value('dialog', 'cached_dialognode', "res://addons/dialogic/Nodes/DialogNode.tscn"))
 		Engine.get_main_loop().set_meta('dialogic_scene_cache', [scene])
 
 

@@ -903,7 +903,8 @@ static func get_flat_folders_list(include_folders: bool = true) -> Dictionary:
 
 
 static func can_use_threading() -> bool:
-	return !Engine.editor_hint and !OS.has_feature('HTML5')
+	var settings = DialogicResources.get_settings_config()
+	return !Engine.editor_hint and !OS.has_feature('HTML5') and settings.get_value("dialog", 'threading_enabled', true)
 
 ## *****************************************************************************
 ##							DIALOGIC_SORTER CLASS

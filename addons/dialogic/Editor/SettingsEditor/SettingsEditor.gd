@@ -9,7 +9,7 @@ onready var nodes = {
 	'canvas_layer' : $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer/HBoxContainer3/CanvasLayer,
 	
 	# Dialog
-	'preload_node_button' : $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/HBoxContainer/Button,
+	'cached_node_button' : $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/HBoxContainer/Button,
 	'text_event_audio_default_bus' : $VBoxContainer/HBoxContainer3/VBoxContainer/VBoxContainer2/TextAudioDefaultBus/AudioBus,
 
 	# Input Settings
@@ -112,8 +112,8 @@ func _ready():
 		nodes[key].connect('pressed', self, '_on_hotkey_action_key_presssed', [key])
 		nodes[key].connect('item_selected', self, '_on_default_action_key_item_selected', [key])
 	
-	nodes['preload_node_button'].connect('pressed', self, '_on_preload_node_button_pressed')
-	_update_preloaded_node_name(settings.get_value('dialog', 'preload_node', "res://addons/dialogic/Nodes/DialogNode.tscn"))
+	nodes['cached_node_button'].connect('pressed', self, '_on_cached_node_button_pressed')
+	_update_cached_node_name(settings.get_value('dialog', 'cached_dialognode', "res://addons/dialogic/Nodes/DialogNode.tscn"))
 	AudioServer.connect("bus_layout_changed", self, "update_bus_selector")
 	nodes['text_event_audio_default_bus'].connect('item_selected', self, '_on_text_audio_default_bus_item_selected')
 	
@@ -280,19 +280,19 @@ func _on_text_changed(text, section: String, key: String) -> void:
 	#set_value('history', 'history_character_delimiter', text)
 
 
-func _on_preload_node_button_pressed():
+func _on_cached_node_button_pressed():
 	editor_reference.godot_dialog("*.tscn")
-	editor_reference.godot_dialog_connect(self, "_on_preload_node_selected")
+	editor_reference.godot_dialog_connect(self, "_on_cached_node_selected")
 
 
-func _on_preload_node_selected(path, _target):
-	set_value('dialog', 'preload_node', path)
-	_update_preloaded_node_name(path)
+func _on_cached_node_selected(path, _target):
+	set_value('dialog', 'cached_node', path)
+	_update_cached_node_name(path)
 
 
-func _update_preloaded_node_name(path : String):
+func _update_cached_node_name(path : String):
 	var name = path.get_file()
-	nodes['preload_node_button'].text = name
+	nodes['cached_node_button'].text = name
 
 
 # Reading and saving data to the settings file
