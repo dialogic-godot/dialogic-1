@@ -1361,6 +1361,8 @@ func grab_portrait_focus(character_data, event: Dictionary = {}) -> bool:
 			portrait.focus()
 			emit_signal("portrait_changed", portrait)
 			if event.has('portrait'):
+				if DialogicUtil.can_use_threading() and portrait.get_loading_portrait() != null:
+					yield(portrait, "portrait_image_updated")
 				portrait.set_portrait(get_portrait_name(event))
 				if DialogicUtil.can_use_threading():
 					yield(portrait, "portrait_image_updated")
