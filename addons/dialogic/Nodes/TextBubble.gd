@@ -18,10 +18,17 @@ onready var next_indicator = $NextIndicatorContainer/NextIndicator
 
 var _finished := false
 var _theme
+var _theme_background_ready := false
+var _theme_next_ready := false
+var _theme_namelabel_ready := false
 
 signal text_completed()
 signal letter_written(lastLetter)
 signal signal_request(arg)
+signal theme_loaded()
+signal _theme_background_loaded()
+signal _theme_next_loaded()
+signal _theme_namelabel_loaded()
 
 ## *****************************************************************************
 ##								PUBLIC METHODS
@@ -168,6 +175,9 @@ func reset():
 
 
 func load_theme(theme: ConfigFile):
+	_theme_background_ready = false
+	_theme_next_ready = false
+	_theme_namelabel_ready = false
 	# Text
 	var theme_font = DialogicUtil.path_fixer_load(theme.get_value('text', 'font', 'res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres'))
 	text_label.set('custom_fonts/normal_font', theme_font)
@@ -211,7 +221,13 @@ func load_theme(theme: ConfigFile):
 	text_container.set('margin_bottom', theme.get_value('text', 'text_margin_bottom', -10))
 
 	# Backgrounds
-	$TextureRect.texture = DialogicUtil.path_fixer_load(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	var background_texture_path = DialogicUtil.path_fixer(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	if DialogicUtil.can_use_threading():
+		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
+		loader.connect("resource_loaded", self, "_threaded_background_texture_ready", [], CONNECT_ONESHOT)
+		loader.load_resource(background_texture_path)
+	else:
+		_threaded_background_texture_ready(load(background_texture_path))
 	$ColorRect.color = Color(theme.get_value('background','color', "#ff000000"))
 
 	if theme.get_value('background', 'modulation', false):
@@ -229,7 +245,13 @@ func load_theme(theme: ConfigFile):
 
 	# Next image
 	$NextIndicatorContainer.rect_position = Vector2(0,0)
-	next_indicator.texture = DialogicUtil.path_fixer_load(theme.get_value('next_indicator', 'image', 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'))
+	var next_texture_path = DialogicUtil.path_fixer(theme.get_value('next_indicator', 'image', 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'))
+	if DialogicUtil.can_use_threading():
+		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
+		loader.connect("resource_loaded", self, "_threaded_next_texture_ready", [], CONNECT_ONESHOT)
+		loader.load_resource(next_texture_path)
+	else:
+		_threaded_next_texture_ready(load(next_texture_path))
 	# Reset for up and down animation
 	next_indicator.margin_top = 0 
 	next_indicator.margin_bottom = 0 
@@ -247,7 +269,13 @@ func load_theme(theme: ConfigFile):
 	$NameLabel/ColorRect.visible = theme.get_value('name', 'background_visible', false)
 	$NameLabel/ColorRect.color = Color(theme.get_value('name', 'background', '#282828'))
 	$NameLabel/TextureRect.visible = theme.get_value('name', 'image_visible', false)
-	$NameLabel/TextureRect.texture = DialogicUtil.path_fixer_load(theme.get_value('name','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	var name_label_tex_path = DialogicUtil.path_fixer(theme.get_value('name','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
+	if DialogicUtil.can_use_threading():
+		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
+		loader.connect("resource_loaded", self, "_threaded_name_label_texture_ready", [], CONNECT_ONESHOT)
+		loader.load_resource(name_label_tex_path)
+	else:
+		_threaded_name_label_texture_ready(load(name_label_tex_path))
 	
 	var name_padding = theme.get_value('name', 'name_padding', Vector2( 10, 0 ))
 	var name_style = name_label.get('custom_styles/normal')
@@ -275,11 +303,34 @@ func load_theme(theme: ConfigFile):
 	
 	# Saving reference to the current theme
 	_theme = theme
+	
+	if DialogicUtil.can_use_threading():
+		if !_theme_background_ready:
+			yield(self, "_theme_background_loaded")
+		if !_theme_next_ready:
+			yield(self, "_theme_next_loaded")
+		if !_theme_namelabel_ready:
+			yield(self, "_theme_namelabel_loaded")
+		emit_signal("theme_loaded")
 
 ## *****************************************************************************
 ##								PRIVATE METHODS
 ## *****************************************************************************
 
+func _threaded_background_texture_ready(image):
+	$TextureRect.texture = image
+	_theme_background_ready = true
+	emit_signal("_theme_background_loaded")
+
+func _threaded_next_texture_ready(image):
+	next_indicator.texture = image
+	_theme_next_ready = true
+	emit_signal("_theme_next_loaded")
+
+func _threaded_name_label_texture_ready(image):
+	$NameLabel/TextureRect.texture = image
+	_theme_namelabel_ready = true
+	emit_signal("_theme_namelabel_loaded")
 
 func _on_writing_timer_timeout():
 	if _finished == false:

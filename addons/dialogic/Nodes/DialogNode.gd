@@ -65,6 +65,9 @@ var audio_data = {}
 var button_container = null
 var current_portrait = null
 
+# Async loading flags
+var _theme_loaded := false
+
 ## -----------------------------------------------------------------------------
 ## 						SCENES
 ## -----------------------------------------------------------------------------
@@ -101,6 +104,9 @@ func _ready():
 	Engine.get_main_loop().set_meta('latest_dialogic_node', self)
 	# Loading the config files
 	load_config_files()
+	if DialogicUtil.can_use_threading() and !_theme_loaded:
+		_hide_dialog()
+		yield($TextBubble, "theme_loaded")
 	
 	#update_custom_events()
 	$CustomEvents.update()
@@ -326,6 +332,7 @@ func deferred_resize(current_size, result, anchor):
 
 # loads the given theme file
 func load_theme(filename):
+	_theme_loaded = false
 	var current_theme_anchor = -1
 	if current_theme:
 		current_theme_anchor = current_theme.get_value('box', 'anchor', 9)
@@ -337,6 +344,8 @@ func load_theme(filename):
 	# Box size
 	call_deferred('deferred_resize', $TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	
+	if DialogicUtil.can_use_threading() and !$TextBubble.is_connected("theme_loaded", self, "set"):
+		$TextBubble.connect("theme_loaded", self, "set", ["_theme_loaded", true], CONNECT_ONESHOT)
 	$TextBubble.load_theme(theme)
 	HistoryTimeline.change_theme(theme)
 	$DefinitionInfo.load_theme(theme)
@@ -722,6 +731,8 @@ func event_handler(event: Dictionary):
 					var char_portrait = get_portrait_name(event)
 					p.init(char_portrait)
 					p.set_mirror(event.get('mirror_portrait', false))
+					if DialogicUtil.can_use_threading():
+						yield(p, 'portrait_image_updated')
 					
 					# ADD IT TO THE SCENE
 					$Portraits.add_child(p)
@@ -765,6 +776,8 @@ func event_handler(event: Dictionary):
 								var portrait_name = get_portrait_name(event)
 								if portrait_name != portrait.current_state['portrait']:
 									portrait.set_portrait(portrait_name)
+									if DialogicUtil.can_use_threading():
+										yield(portrait, "portrait_image_updated")
 									# recalculate the position of the portrait with an instant animation
 									portrait.move_to_position(get_character_position(portrait.current_state['position']))
 								
@@ -1348,7 +1361,11 @@ func grab_portrait_focus(character_data, event: Dictionary = {}) -> bool:
 			portrait.focus()
 			emit_signal("portrait_changed", portrait)
 			if event.has('portrait'):
+				if DialogicUtil.can_use_threading() and portrait.get_loading_portrait() != null:
+					yield(portrait, "portrait_image_updated")
 				portrait.set_portrait(get_portrait_name(event))
+				if DialogicUtil.can_use_threading():
+					yield(portrait, "portrait_image_updated")
 				if settings.get_value('dialog', 'recenter_portrait', true):
 					portrait.move_to_position(portrait.direction)
 		else:
@@ -1572,6 +1589,8 @@ func resume_state_from_info(state_info):
 			p.dim_time = current_theme.get_value('animation', 'dim_time', 0.5)
 			p.character_data = character_data
 			p.init(char_portrait)
+			if DialogicUtil.can_use_threading():
+				yield(p, "portrait_image_updated")
 
 			p.set_mirror(event.get('mirror', false))
 			$Portraits.add_child(p)
