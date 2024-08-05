@@ -22,6 +22,7 @@ static func prepare():
 	var flat_structure = DialogicUtil.get_flat_folders_list(false) 
 
 	Engine.get_main_loop().set_meta('dialogic_tree', flat_structure)
+	Engine.get_main_loop().set_meta('dialogic_settings', DialogicResources.get_settings_config())
 	
 	var settings = DialogicResources.get_settings_config()
 	if settings.get_value('dialog', 'do_cache_dialognode', true):
