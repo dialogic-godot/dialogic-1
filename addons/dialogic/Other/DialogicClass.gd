@@ -56,7 +56,7 @@ static func start(timeline: String = '', default_timeline: String ='', dialog_sc
 	
 	if !Engine.get_main_loop().has_meta('dialogic_tree'):
 		prepare()
-	if Engine.get_main_loop().has_meta('dialogic_scene_cache'):
+	if Engine.get_main_loop().has_meta('dialogic_scene_cache') and DialogicResources.get_settings_value('dialog', 'do_cache_dialognode', true):
 		var sc = Engine.get_main_loop().get_meta('dialogic_scene_cache')
 		if !sc.has(dialog_scene):
 			sc.append(dialog_scene)
