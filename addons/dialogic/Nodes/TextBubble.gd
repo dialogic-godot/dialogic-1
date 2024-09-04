@@ -21,6 +21,8 @@ var _theme
 var _theme_background_ready := false
 var _theme_next_ready := false
 var _theme_namelabel_ready := false
+var _loaded_same_frame := false
+var mutexes = [Mutex.new(), Mutex.new(), Mutex.new()]
 
 signal text_completed()
 signal letter_written(lastLetter)
@@ -224,10 +226,10 @@ func load_theme(theme: ConfigFile):
 	var background_texture_path = DialogicUtil.path_fixer(theme.get_value('background','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
 	if DialogicUtil.can_use_threading():
 		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
-		loader.connect("resource_loaded", self, "_threaded_background_texture_ready", [], CONNECT_ONESHOT)
+		loader.connect("resource_loaded", self, "_set_background_texture", [], CONNECT_ONESHOT)
 		loader.load_resource(background_texture_path)
 	else:
-		_threaded_background_texture_ready(load(background_texture_path))
+		_set_background_texture(load(background_texture_path))
 	$ColorRect.color = Color(theme.get_value('background','color', "#ff000000"))
 
 	if theme.get_value('background', 'modulation', false):
@@ -248,10 +250,10 @@ func load_theme(theme: ConfigFile):
 	var next_texture_path = DialogicUtil.path_fixer(theme.get_value('next_indicator', 'image', 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'))
 	if DialogicUtil.can_use_threading():
 		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
-		loader.connect("resource_loaded", self, "_threaded_next_texture_ready", [], CONNECT_ONESHOT)
+		loader.connect("resource_loaded", self, "_set_next_texture", [], CONNECT_ONESHOT)
 		loader.load_resource(next_texture_path)
 	else:
-		_threaded_next_texture_ready(load(next_texture_path))
+		_set_next_texture(load(next_texture_path))
 	# Reset for up and down animation
 	next_indicator.margin_top = 0 
 	next_indicator.margin_bottom = 0 
@@ -272,10 +274,10 @@ func load_theme(theme: ConfigFile):
 	var name_label_tex_path = DialogicUtil.path_fixer(theme.get_value('name','image', "res://addons/dialogic/Example Assets/backgrounds/background-2.png"))
 	if DialogicUtil.can_use_threading():
 		var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
-		loader.connect("resource_loaded", self, "_threaded_name_label_texture_ready", [], CONNECT_ONESHOT)
+		loader.connect("resource_loaded", self, "_set_name_label_texture", [], CONNECT_ONESHOT)
 		loader.load_resource(name_label_tex_path)
 	else:
-		_threaded_name_label_texture_ready(load(name_label_tex_path))
+		_set_name_label_texture(load(name_label_tex_path))
 	
 	var name_padding = theme.get_value('name', 'name_padding', Vector2( 10, 0 ))
 	var name_style = name_label.get('custom_styles/normal')
@@ -305,32 +307,46 @@ func load_theme(theme: ConfigFile):
 	_theme = theme
 	
 	if DialogicUtil.can_use_threading():
+		_loaded_same_frame = true
 		if !_theme_background_ready:
 			yield(self, "_theme_background_loaded")
 		if !_theme_next_ready:
 			yield(self, "_theme_next_loaded")
 		if !_theme_namelabel_ready:
 			yield(self, "_theme_namelabel_loaded")
-		emit_signal("theme_loaded")
+		
+		if _loaded_same_frame:
+			call_deferred("emit_signal", "theme_loaded")
+		else:
+			emit_signal("theme_loaded")
 
 ## *****************************************************************************
 ##								PRIVATE METHODS
 ## *****************************************************************************
 
-func _threaded_background_texture_ready(image):
+func _set_background_texture(image):
+	mutexes[0].lock()
 	$TextureRect.texture = image
+	mutexes[0].unlock()
 	_theme_background_ready = true
 	emit_signal("_theme_background_loaded")
 
-func _threaded_next_texture_ready(image):
+
+func _set_next_texture(image):
+	mutexes[1].lock()
 	next_indicator.texture = image
+	mutexes[1].unlock()
 	_theme_next_ready = true
 	emit_signal("_theme_next_loaded")
 
-func _threaded_name_label_texture_ready(image):
+
+func _set_name_label_texture(image):
+	mutexes[2].lock()
 	$NameLabel/TextureRect.texture = image
+	mutexes[2].unlock()
 	_theme_namelabel_ready = true
 	emit_signal("_theme_namelabel_loaded")
+
 
 func _on_writing_timer_timeout():
 	if _finished == false:
@@ -386,4 +402,8 @@ func _ready():
 	$WritingTimer.connect("timeout", self, "_on_writing_timer_timeout")
 	text_label.meta_underlined = false
 	regex.compile("\\[\\s*(nw|(nw|speed|signal|play|pause)\\s*=\\s*(.+?)\\s*)\\](.*?)")
-	
+
+
+func _process(_delta):
+	_loaded_same_frame = false
+

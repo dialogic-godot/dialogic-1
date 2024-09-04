@@ -20,6 +20,7 @@ var custom_instance : Node2D = null
 var current_state := {'character':'', 'portrait':'', 'position':'', 'mirrored':false}
 
 var _loading_portrait = null	# Threading
+var mutex := Mutex.new()
 
 signal animation_finished()
 signal portrait_image_updated()
@@ -65,25 +66,19 @@ func set_portrait(expression: String) -> void:
 				custom_instance.name = 'DialogicCustomPortraitScene'
 				add_child(custom_instance)
 				
-				$TextureRect.texture = ImageTexture.new()
-				# Threading: use deferred call, otherwise signal will be emitted before
-				# signal is yielded from calling function
-				_loading_portrait = null
-				call_deferred("emit_signal", "portrait_image_updated")
+				_set_portrait_texture(ImageTexture.new())
 				return
 			else:
 				# Creating an image portrait
 				if ResourceLoader.exists(p['path']):
 					if DialogicUtil.can_use_threading():
 						var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
-						loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT | CONNECT_DEFERRED)
+						loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT)
 						loader.load_resource(p['path'])
 					else:
-						$TextureRect.texture = load(p['path'])
+						_set_portrait_texture(load(p['path']))
 				else:
-					$TextureRect.texture = ImageTexture.new()
-					_loading_portrait = null
-					call_deferred("emit_signal", "portrait_image_updated")
+					_set_portrait_texture(ImageTexture.new())
 				return
 		
 		# Saving what the default is to fallback to it.
@@ -100,30 +95,31 @@ func set_portrait(expression: String) -> void:
 		custom_instance.name = 'DialogicCustomPortraitScene'
 		add_child(custom_instance)
 		
-		$TextureRect.texture = ImageTexture.new()
-		_loading_portrait = null
-		call_deferred("emit_signal", "portrait_image_updated")
+		_set_portrait_texture(ImageTexture.new())
 		return
 	else:
 		# Creating an image portrait
 		if ResourceLoader.exists(default):
 			if DialogicUtil.can_use_threading():
 				var loader = preload("res://addons/dialogic/Other/threaded_image_loader.gd").new()
-				loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT | CONNECT_DEFERRED)
+				loader.connect("resource_loaded", self, "_set_portrait_texture", [], CONNECT_ONESHOT)
 				loader.load_resource(default)
 			else:
-				$TextureRect.texture = load(default)
+				_set_portrait_texture(load(default))
 		else:
-			$TextureRect.texture = ImageTexture.new()
-			_loading_portrait = null
-			call_deferred("emit_signal", "portrait_image_updated")
+			_set_portrait_texture(ImageTexture.new())
 		return
 
 
 func _set_portrait_texture(tex):
+	# Ensure only 1 thread can set the texture at a time
+	mutex.lock()
 	$TextureRect.texture = tex
+	mutex.unlock()
 	_loading_portrait = null
-	emit_signal("portrait_image_updated")
+	# Threading: use deferred call, otherwise signal may be emitted before
+	# the signal is yielded from the calling function
+	call_deferred("emit_signal", "portrait_image_updated")
 
 
 func get_loading_portrait() -> String:
