@@ -341,12 +341,17 @@ func load_theme(filename):
 		return current_theme 
 	var theme = load_theme
 	current_theme_file_name = filename
-	# Box size
-	call_deferred('deferred_resize', $TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	
-	if DialogicUtil.can_use_threading() and !$TextBubble.is_connected("theme_loaded", self, "set"):
+	# Load the theme and resize/relocate the text bubble after the theme is loaded
+	if !$TextBubble.is_connected("theme_loaded", self, "set"):
 		$TextBubble.connect("theme_loaded", self, "set", ["_theme_loaded", true], CONNECT_ONESHOT)
 	$TextBubble.load_theme(theme)
+	if !_theme_loaded:
+		$TextBubble.connect("theme_loaded", self, "deferred_resize",
+							[$TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor],
+							CONNECT_ONESHOT)
+	else:
+		deferred_resize($TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	HistoryTimeline.change_theme(theme)
 	$DefinitionInfo.load_theme(theme)
 	
