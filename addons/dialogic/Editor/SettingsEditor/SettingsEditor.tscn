@@ -160,7 +160,6 @@ margin_right = 398.0
 margin_bottom = 190.0
 hint_tooltip = "Re-center portrait on each change (1.4+ behavior)"
 text = "Multithreaded image loading"
-default = true
 settings_section = "dialog"
 settings_key = "threading_enabled"
 
