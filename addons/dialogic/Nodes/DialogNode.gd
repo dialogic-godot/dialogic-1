@@ -65,6 +65,9 @@ var audio_data = {}
 var button_container = null
 var current_portrait = null
 
+# Async loading flags
+var _theme_loaded := false
+
 ## -----------------------------------------------------------------------------
 ## 						SCENES
 ## -----------------------------------------------------------------------------
@@ -97,10 +100,17 @@ signal portrait_changed(portrait_path)
 ## 						SCRIPT
 ## -----------------------------------------------------------------------------
 func _ready():
+	# In case the theme takes a while to load, grab the UI focus until the TextBubble is ready
+	focus_mode = FOCUS_ALL
+	grab_focus()
+	
 	# Set this dialog as the latest (used for saving)
 	Engine.get_main_loop().set_meta('latest_dialogic_node', self)
 	# Loading the config files
 	load_config_files()
+	if DialogicUtil.can_use_threading() and !_theme_loaded:
+		_hide_dialog()
+		yield($TextBubble, "theme_loaded")
 	
 	#update_custom_events()
 	$CustomEvents.update()
@@ -143,6 +153,8 @@ func _ready():
 	else:
 		if do_fade_in: _hide_dialog()
 		_init_dialog()
+	
+	focus_mode = FOCUS_NONE
 
 
 # loads the definitions, themes and settings
@@ -326,6 +338,7 @@ func deferred_resize(current_size, result, anchor):
 
 # loads the given theme file
 func load_theme(filename):
+	_theme_loaded = false
 	var current_theme_anchor = -1
 	if current_theme:
 		current_theme_anchor = current_theme.get_value('box', 'anchor', 9)
@@ -334,10 +347,17 @@ func load_theme(filename):
 		return current_theme 
 	var theme = load_theme
 	current_theme_file_name = filename
-	# Box size
-	call_deferred('deferred_resize', $TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	
+	# Load the theme and resize/relocate the text bubble after the theme is loaded
+	if !$TextBubble.is_connected("theme_loaded", self, "set"):
+		$TextBubble.connect("theme_loaded", self, "set", ["_theme_loaded", true], CONNECT_ONESHOT)
 	$TextBubble.load_theme(theme)
+	if !_theme_loaded and !$TextBubble.is_connected("theme_loaded", self, "deferred_resize"):
+		$TextBubble.connect("theme_loaded", self, "deferred_resize",
+							[$TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor],
+							CONNECT_ONESHOT)
+	else:
+		deferred_resize($TextBubble.rect_size, theme.get_value('box', 'size', Vector2(910, 167)), current_theme_anchor)
 	HistoryTimeline.change_theme(theme)
 	$DefinitionInfo.load_theme(theme)
 	
@@ -480,11 +500,11 @@ func _input(event: InputEvent) -> void:
 					$FX/CharacterVoice.stop_voice() # stop the current voice as well
 					play_audio("passing")
 					_load_next_event()
-				else:
+				elif !dialog_script.empty():
 					next_event(false)
 			if settings.has_section_key('dialog', 'propagate_input'):
 				var propagate_input: bool = settings.get_value('dialog', 'propagate_input')
-				if not propagate_input  and not is_state(state.WAITING_INPUT):
+				if not propagate_input and not is_state(state.WAITING_INPUT):
 					get_tree().set_input_as_handled()
 
 func next_event(discreetly: bool):
@@ -678,8 +698,12 @@ func event_handler(event: Dictionary):
 				grab_portrait_focus(character_data, event)
 				if character_data.get('data', {}).get('theme', '') and current_theme_file_name != character_data.get('data', {}).get('theme', ''):
 					current_theme = load_theme(character_data.get('data', {}).get('theme', ''))
-				elif !character_data.get('data', {}).get('theme', '') and current_default_theme and  current_theme_file_name != current_default_theme:
+					if DialogicUtil.can_use_threading() and !_theme_loaded:
+						yield($TextBubble, "theme_loaded")
+				elif !character_data.get('data', {}).get('theme', '') and current_default_theme and current_theme_file_name != current_default_theme:
 					current_theme = load_theme(current_default_theme)
+					if DialogicUtil.can_use_threading() and !_theme_loaded:
+						yield($TextBubble, "theme_loaded")
 				update_name(character_data)
 
 			#voice 
@@ -722,6 +746,8 @@ func event_handler(event: Dictionary):
 					var char_portrait = get_portrait_name(event)
 					p.init(char_portrait)
 					p.set_mirror(event.get('mirror_portrait', false))
+					if DialogicUtil.can_use_threading():
+						yield(p, 'portrait_image_updated')
 					
 					# ADD IT TO THE SCENE
 					$Portraits.add_child(p)
@@ -765,6 +791,8 @@ func event_handler(event: Dictionary):
 								var portrait_name = get_portrait_name(event)
 								if portrait_name != portrait.current_state['portrait']:
 									portrait.set_portrait(portrait_name)
+									if DialogicUtil.can_use_threading():
+										yield(portrait, "portrait_image_updated")
 									# recalculate the position of the portrait with an instant animation
 									portrait.move_to_position(get_character_position(portrait.current_state['position']))
 								
@@ -1348,7 +1376,12 @@ func grab_portrait_focus(character_data, event: Dictionary = {}) -> bool:
 			portrait.focus()
 			emit_signal("portrait_changed", portrait)
 			if event.has('portrait'):
+				# If this portrait is currently loading an image, wait until it's done
+				if DialogicUtil.can_use_threading() and portrait.get_loading_portrait() != null:
+					yield(portrait, "portrait_image_updated")
 				portrait.set_portrait(get_portrait_name(event))
+				if DialogicUtil.can_use_threading():
+					yield(portrait, "portrait_image_updated")
 				if settings.get_value('dialog', 'recenter_portrait', true):
 					portrait.move_to_position(portrait.direction)
 		else:
@@ -1572,6 +1605,8 @@ func resume_state_from_info(state_info):
 			p.dim_time = current_theme.get_value('animation', 'dim_time', 0.5)
 			p.character_data = character_data
 			p.init(char_portrait)
+			if DialogicUtil.can_use_threading():
+				yield(p, "portrait_image_updated")
 
 			p.set_mirror(event.get('mirror', false))
 			$Portraits.add_child(p)
