@@ -11,7 +11,6 @@ extends Node
 class_name Dialogic
 
 ## Preloader function, loads and prepares the tree into the Engine meta
-## Additionally will create DialogNode cache if configured in settings
 ## Not necessary to run separately, it will be run by Dialogic.start() the first time if it's not present
 ## But useful to speed up loading
 ## This might be slower than the older way, though, so best to do with some other loading
@@ -22,12 +21,6 @@ static func prepare():
 	var flat_structure = DialogicUtil.get_flat_folders_list(false) 
 
 	Engine.get_main_loop().set_meta('dialogic_tree', flat_structure)
-	Engine.get_main_loop().set_meta('dialogic_settings', DialogicResources.get_settings_config())
-	
-	var settings = DialogicResources.get_settings_config()
-	if settings.get_value('dialog', 'do_cache_dialognode', true):
-		var scene = load(settings.get_value('dialog', 'cached_dialognode', "res://addons/dialogic/Nodes/DialogNode.tscn"))
-		Engine.get_main_loop().set_meta('dialogic_scene_cache', [scene])
 
 
 ## Starts the dialog for the given timeline and returns a Dialog node.
@@ -56,10 +49,6 @@ static func start(timeline: String = '', default_timeline: String ='', dialog_sc
 	
 	if !Engine.get_main_loop().has_meta('dialogic_tree'):
 		prepare()
-	if Engine.get_main_loop().has_meta('dialogic_scene_cache') and DialogicResources.get_settings_value('dialog', 'do_cache_dialognode', true):
-		var sc = Engine.get_main_loop().get_meta('dialogic_scene_cache')
-		if !sc.has(dialog_scene):
-			sc.append(dialog_scene)
 	
 	if use_canvas_instead:
 		var canvas_dialog_script = load("res://addons/dialogic/Nodes/canvas_dialog_node.gd")
@@ -93,12 +82,7 @@ static func start(timeline: String = '', default_timeline: String ='', dialog_sc
 	
 	# check if it's a file name
 	if timeline.ends_with('.json'):
-		var loop_over
-		if Engine.editor_hint:
-			loop_over = DialogicUtil.get_timeline_list()
-		else:
-			loop_over = Engine.get_main_loop().get_meta('dialogic_tree')['Timelines'].values()
-		for t in loop_over:
+		for t in DialogicUtil.get_timeline_list():
 			if t['file'] == timeline:
 				dialog_node.timeline = t['file']
 				dialog_node.timeline_name = timeline

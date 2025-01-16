@@ -174,8 +174,6 @@ static func copy_file(path_from, path_to):
 ##							CONFIG
 ## *****************************************************************************
 static func get_config(id: String) -> ConfigFile:
-	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_settings'):
-		return Engine.get_main_loop().get_meta('dialogic_settings')
 	var paths := get_config_files_paths()
 	var config := ConfigFile.new()
 	if id in paths.keys():

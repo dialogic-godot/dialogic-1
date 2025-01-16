@@ -15,8 +15,6 @@ static func list_to_dict(list):
 ## *****************************************************************************
 
 static func get_character_list() -> Array:
-	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
-		return Engine.get_main_loop().get_meta('dialogic_tree')['Characters'].values()
 	var characters: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('CHAR_DIR')):
 		if '.json' in file:
@@ -59,8 +57,6 @@ static func get_character(character_id):
 
 
 static func get_timeline_list() -> Array:
-	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
-		return Engine.get_main_loop().get_meta('dialogic_tree')['Timelines'].values()
 	var timelines: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('TIMELINE_DIR')):
 		if '.json' in file: # TODO check for real .json because if .json is in the middle of the sentence it still thinks it is a timeline
@@ -91,8 +87,6 @@ static func get_sorted_timeline_list():
 ## *****************************************************************************
 
 static func get_theme_list() -> Array:
-	if !Engine.editor_hint and Engine.get_main_loop().has_meta('dialogic_tree'):
-		return Engine.get_main_loop().get_meta('dialogic_tree')['Themes'].values()
 	var themes: Array = []
 	for file in DialogicResources.listdir(DialogicResources.get_path('THEME_DIR')):
 		if '.cfg' in file:
@@ -606,21 +600,6 @@ static func compare_dicts(dict_1: Dictionary, dict_2: Dictionary) -> bool:
 	return false
 
 
-static func path_fixer(path):
-	match path:
-		'res://addons/dialogic/Fonts/DefaultFont.tres':
-			return "res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres"
-		'res://addons/dialogic/Fonts/GlossaryFont.tres':
-			return 'res://addons/dialogic/Example Assets/Fonts/GlossaryFont.tres'
-		'res://addons/dialogic/Images/background/background-1.png':
-			return 'res://addons/dialogic/Example Assets/backgrounds/background-1.png'
-		'res://addons/dialogic/Images/background/background-2.png':
-			return 'res://addons/dialogic/Example Assets/backgrounds/background-2.png'
-		'res://addons/dialogic/Images/next-indicator.png':
-			return 'res://addons/dialogic/Example Assets/next-indicator/next-indicator.png'
-
-	return path
-
 static func path_fixer_load(path):
 	# This function was added because some of the default assets shipped with
 	# Dialogic 1.0 were moved for version 1.1. If by any chance they still
@@ -629,7 +608,19 @@ static func path_fixer_load(path):
 	# DialogicUtil.path_fixer_load(x) with just load(x) on version 2.0
 	# since we will break compatibility.
 	
-	return load(path_fixer(path))
+	match path:
+		'res://addons/dialogic/Fonts/DefaultFont.tres':
+			return load("res://addons/dialogic/Example Assets/Fonts/DefaultFont.tres")
+		'res://addons/dialogic/Fonts/GlossaryFont.tres':
+			return load('res://addons/dialogic/Example Assets/Fonts/GlossaryFont.tres')
+		'res://addons/dialogic/Images/background/background-1.png':
+			return load('res://addons/dialogic/Example Assets/backgrounds/background-1.png')
+		'res://addons/dialogic/Images/background/background-2.png':
+			return load('res://addons/dialogic/Example Assets/backgrounds/background-2.png')
+		'res://addons/dialogic/Images/next-indicator.png':
+			return load('res://addons/dialogic/Example Assets/next-indicator/next-indicator.png')
+
+	return load(path)
 
 # This function contains necessary updates.
 # This should be deleted in 2.0
@@ -901,10 +892,6 @@ static func get_flat_folders_list(include_folders: bool = true) -> Dictionary:
 	
 	return flatten
 
-
-static func can_use_threading() -> bool:
-	var settings = DialogicResources.get_settings_config()
-	return !Engine.editor_hint and !OS.has_feature('HTML5') and settings.get_value("dialog", 'threading_enabled', false)
 
 ## *****************************************************************************
 ##							DIALOGIC_SORTER CLASS

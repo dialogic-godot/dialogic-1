@@ -4,11 +4,7 @@ class_name DialogicParser
 
 # adds name coloring to the dialog texts
 static func parse_characters(dialog_script):
-	var characters
-	if Engine.editor_hint:
-		characters = DialogicUtil.get_character_list()
-	else:
-		characters = Engine.get_main_loop().get_meta('dialogic_tree', [])['Characters'].values()
+	var characters = DialogicUtil.get_character_list()
 	var event_index := 0
 	for event in dialog_script['events']:
 		# if this is a text or question event
